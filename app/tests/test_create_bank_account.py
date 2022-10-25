@@ -1,6 +1,6 @@
 import unittest
 
-from ..Konto import Konto
+from app.Konto import Konto
 
 class TestCreateBankAccount(unittest.TestCase):
 
@@ -12,6 +12,8 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(pierwsze_konto.pesel, "12345678900", "PESEL nie został zapisany")
         self.assertEqual(len(pierwsze_konto.pesel), 11, "Niepoprwany pesel")
 
+        # drugie_konto = Konto("Marek", "Papszun", "98765432100", "PROM_XYZ")
+        # self.assertEqual(drugie_konto.saldo, 50, "Niepoprwany kod promocyjny")
 
 
     #tutaj proszę dodawać nowe testy
