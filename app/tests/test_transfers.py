@@ -7,7 +7,7 @@ class TestTransfers(unittest.TestCase):
     surname = "Papszun"
     pesel = "02225432100"
 
-    def test_transfer_out(self):
+    def test_transfer_from(self):
         konto = Konto(self.name, self.surname, self.pesel)
         konto.saldo = 400
         konto.transfer_from(100)
