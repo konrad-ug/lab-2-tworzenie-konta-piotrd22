@@ -23,3 +23,9 @@ class KontoOsobiste(Konto):
 
         else:
             self.saldo = 0
+    
+    def transfer_to_fast(self, sum, x = 1):
+        if(self.saldo - sum - x >= -x):
+            self.saldo -= (sum + x)
+        else:
+            self.saldo = self.saldo

@@ -13,3 +13,9 @@ class KontoFirmowe(Konto):
             self.NIP = NIP
         else:
             self.NIP = "Niepoprawny NIP!"
+    
+    def transfer_to_fast(self, sum, x = 5):
+        if(self.saldo - sum - x >= -x):
+            self.saldo -= (sum + x)
+        else:
+            self.saldo = self.saldo
