@@ -12,6 +12,7 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
 
     def test_valid_PESEL(self):
+        pierwsze_konto = Konto("Dariusz", "Januszewski", "12225678900")
         self.assertEqual(pierwsze_konto.pesel, "12225678900", "PESEL nie został zapisany")
         self.assertEqual(len(pierwsze_konto.pesel), 11, "Niepoprwany pesel")
 
@@ -34,3 +35,5 @@ class TestCreateBankAccount(unittest.TestCase):
     def test_promocode_to_proper_person(self):
         piate_konto = Konto("Marek", "Papszun", "02225432100", "PROM_xyz")
         self.assertEqual(piate_konto.saldo, 50, "Kod powinien być ważny dla osób po 1960r.!")
+
+
