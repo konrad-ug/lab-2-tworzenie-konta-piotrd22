@@ -35,5 +35,3 @@ class TestCreateBankAccount(unittest.TestCase):
     def test_promocode_to_proper_person(self):
         piate_konto = KontoOsobiste("Marek", "Papszun", "02225432100", "PROM_xyz")
         self.assertEqual(piate_konto.saldo, 50, "Kod powinien być ważny dla osób po 1960r.!")
-
-
