@@ -18,6 +18,6 @@ class TestLoan(unittest.TestCase):
     ])
     def test_loan(self, historia, suma, werdykt, saldo):
         self.konto.historia = historia
-        is_loan = self.konto.check_is_loan(suma)
+        is_loan = self.konto.zaciagnij_kredyt(suma)
         self.assertEqual(is_loan, werdykt)
         self.assertEqual(self.konto.saldo, saldo)

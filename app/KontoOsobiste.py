@@ -40,7 +40,7 @@ class KontoOsobiste(Konto):
     def check_sum_of_last5(self, suma):
         return len(self.historia) >= 5 and sum(self.historia[0:5]) > suma
 
-    def check_is_loan(self, suma):
+    def zaciagnij_kredyt(self, suma):
         if (self.check_history_to_loan() and self.check_sum_of_last5(suma)):
             self.saldo += suma
             return True
