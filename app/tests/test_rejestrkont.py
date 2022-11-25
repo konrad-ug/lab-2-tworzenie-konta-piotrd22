@@ -18,7 +18,7 @@ class TestRegister(unittest.TestCase):
         self.assertEqual(RejestrKont.usersCount(), 1)
 
     def test_2_add_second_user(self):
-        user = KontoOsobiste(self.name, self.surname, self.pesel)
+        user = KontoOsobiste(self.name, self.surname, "1234567890")
         RejestrKont.addUser(user)
         self.assertEqual(RejestrKont.usersCount(), 2)
 
