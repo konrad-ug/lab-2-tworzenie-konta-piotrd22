@@ -7,8 +7,10 @@ class RejestrKont():
 
     @classmethod
     def searchUserbyPesel(cls, pesel):
-        user = filter(lambda x: x.pesel == pesel, cls.konta_osobiste)
-        return user
+        for user in cls.konta_osobiste:
+            if user.pesel == pesel:
+                return user
+        return None
 
     @classmethod
     def usersCount(cls):
