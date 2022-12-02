@@ -11,11 +11,11 @@ def stworz_konto():
     dane = request.get_json()
     if RejestrKont.searchUserbyPesel(dane["pesel"]) != None:
         return jsonify("This PESEL is already in our DB"), 400
-
-    print(f"Request o stworzenie konta z danymi: {dane}")
-    konto = KontoOsobiste(dane["imie"], dane["nazwisko"], dane["pesel"])
-    RejestrKont.addUser(konto)
-    return jsonify("Konto stworzone"), 201
+    else:
+        print(f"Request o stworzenie konta z danymi: {dane}")
+        konto = KontoOsobiste(dane["imie"], dane["nazwisko"], dane["pesel"])
+        RejestrKont.addUser(konto)
+        return jsonify("Konto stworzone"), 201
 
 
 @app.route("/konta/ile_kont", methods=['GET'])
@@ -27,7 +27,10 @@ def ile_kont():
 @app.route("/konta/konto/<pesel>", methods=['GET'])
 def wyszukaj_konto_z_peselem(pesel):
     konto = RejestrKont.searchUserbyPesel(pesel)
-    return jsonify(imie=konto.imie,  nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
+    if konto == None:
+        return jsonify("There is no user with this PESEL"), 400
+    else:
+        return jsonify(imie=konto.imie,  nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
 
 
 @app.route("/konta/konto/<pesel>", methods=["PUT"])
@@ -36,10 +39,16 @@ def updateAccount(pesel):
     konto = RejestrKont.updateUser(pesel, updateData)
     if konto == "You cannot change pesel!":
         return jsonify(konto), 200
-    return jsonify(imie=konto.imie,  nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
+    elif konto == None:
+        return jsonify("There is no user with this PESEL"), 400
+    else:
+        return jsonify(imie=konto.imie,  nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
 
 
 @app.route("/konta/konto/<pesel>", methods=["DELETE"])
 def deleteAccount(pesel):
-    res = RejestrKont.deleteUser(pesel)
-    return jsonify(res), 200
+    if RejestrKont.searchUserbyPesel(pesel) == None:
+        return jsonify("There is no user with this PESEL"), 400
+    else:
+        res = RejestrKont.deleteUser(pesel)
+        return jsonify(res), 200
