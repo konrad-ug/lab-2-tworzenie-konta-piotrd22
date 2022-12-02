@@ -27,18 +27,51 @@ class TestOblusgaKont(unittest.TestCase):
         self.assertEqual(resp_body["saldo"], 0)
 
     body_to_update = {
-        "pesel": "0212345678",
-        "imie": "joh",
-        "nazwisko": "do",
+        "imie": "anakin",
+        "nazwisko": "skylwalker",
+        "saldo": 1
     }
 
-    def test_updateAccount(self):
+    def test_updateAccount_valid(self):
         create_resp = requests.put(
             self.url + f"/konta/konto/{self.body['pesel']}", json=self.body_to_update
         )
         self.assertEqual(create_resp.status_code, 200)
 
         resp_body = create_resp.json()
-        self.assertEqual(resp_body["imie"], "joh")
-        self.assertEqual(resp_body["nazwisko"], "do")
-        self.assertEqual(resp_body["saldo"], 0)
+        self.assertEqual(resp_body["imie"], self.body_to_update["imie"])
+        self.assertEqual(resp_body["nazwisko"],
+                         self.body_to_update["nazwisko"])
+        self.assertEqual(resp_body["saldo"], 1)
+
+    body_to_update_2 = {
+        "imie": "anakin",
+        "nazwisko": "skylwalker",
+        "pesel": "0212345678"
+    }
+
+    def test_updateAccount_unvalid(self):
+        create_resp = requests.put(
+            self.url + f"/konta/konto/{self.body['pesel']}", json=self.body_to_update_2
+        )
+        self.assertEqual(create_resp.status_code, 200)
+        resp_body = create_resp.json()
+        self.assertEqual(resp_body, "You cannot change pesel!")
+
+    body_toDelete = {
+        "imie": "john",
+        "nazwisko": "doe",
+        "pesel": "02225432101"
+    }
+
+    def test_deleteAccount(self):
+        create_resp = requests.post(
+            self.url + "/konta/stworz_konto", json=self.body_toDelete)
+        self.assertEqual(create_resp.status_code, 201)
+
+        create_resp = requests.delete(
+            self.url + f"/konta/konto/{self.body_toDelete['pesel']}")
+        self.assertEqual(create_resp.status_code, 200)
+
+        resp_body = create_resp.json()
+        self.assertEqual(resp_body, "User has been deleted")
