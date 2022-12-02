@@ -60,6 +60,7 @@ class TestRegister(unittest.TestCase):
         self.assertEqual(RejestrKont.deleteUser(
             "03225432101"), "User has been deleted")
         self.assertEqual(RejestrKont.usersCount(), length - 1)
+        self.assertEqual(RejestrKont.deleteUser("1234567890"), None)
 
     @classmethod
     def tearDownClass(cls):
