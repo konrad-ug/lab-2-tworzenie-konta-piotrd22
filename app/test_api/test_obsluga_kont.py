@@ -75,3 +75,11 @@ class TestOblusgaKont(unittest.TestCase):
 
         resp_body = create_resp.json()
         self.assertEqual(resp_body, "User has been deleted")
+
+    def test_notUniquePesel(self):
+        create_resp = requests.post(
+            self.url + "/konta/stworz_konto", json=self.body)
+        self.assertEqual(create_resp.status_code, 400)
+
+        resp_body = create_resp.json()
+        self.assertEqual(resp_body, "This PESEL is already in our DB")
