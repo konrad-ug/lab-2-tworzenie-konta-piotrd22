@@ -25,3 +25,10 @@ def ile_kont():
 def wyszukaj_konto_z_peselem(pesel):
     konto = RejestrKont.searchUserbyPesel(pesel)
     return jsonify(imie=konto.imie,  nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
+
+
+@app.route("/konta/konto/<pesel>", methods=["PUT"])
+def updateAccount(pesel):
+    updateData = request.get_json()
+    konto = RejestrKont.updateUser(pesel, updateData)
+    return jsonify(imie=konto.imie,  nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
