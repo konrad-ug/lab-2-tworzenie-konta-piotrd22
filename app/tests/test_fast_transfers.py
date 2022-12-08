@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import patch
-import requests
 
 from app.KontoFirmowe import KontoFirmowe
 from app.KontoOsobiste import KontoOsobiste
