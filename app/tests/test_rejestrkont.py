@@ -29,6 +29,39 @@ class TestRegister(unittest.TestCase):
             "03225432100").imie, "Marekas")
         self.assertEqual(RejestrKont.searchUserbyPesel("1234567890"), None)
 
+    def test_updateUser(self):
+        body_to_update = {
+            "imie": "anakin",
+            "nazwisko": "skywalker",
+            "saldo": 1
+        }
+
+        wrong_body = {
+            "pesel": "0212345678"
+        }
+
+        self.assertEqual(RejestrKont.updateUser(
+            self.pesel, body_to_update).imie, RejestrKont.searchUserbyPesel(self.pesel).imie)
+        self.assertEqual(RejestrKont.updateUser(
+            self.pesel, body_to_update).nazwisko, RejestrKont.searchUserbyPesel(self.pesel).nazwisko)
+        self.assertEqual(RejestrKont.updateUser(
+            self.pesel, body_to_update).saldo, RejestrKont.searchUserbyPesel(self.pesel).saldo)
+        self.assertEqual(RejestrKont.updateUser(
+            "1234567890", body_to_update), RejestrKont.searchUserbyPesel("1234567890"))  # NONE
+        self.assertEqual(RejestrKont.updateUser(
+            self.pesel, wrong_body), "You cannot change pesel!")
+
+    def test_deleteUser(self):
+        user = KontoOsobiste(self.name + "po", self.surname, "03225432101")
+        RejestrKont.addUser(user)
+
+        length = RejestrKont.usersCount()
+
+        self.assertEqual(RejestrKont.deleteUser(
+            "03225432101"), "User has been deleted")
+        self.assertEqual(RejestrKont.usersCount(), length - 1)
+        self.assertEqual(RejestrKont.deleteUser("1234567890"), None)
+
     @classmethod
     def tearDownClass(cls):
         RejestrKont.konta_osobiste = []
