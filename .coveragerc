@@ -1,0 +1,6 @@
+[coverage:run]
+omit =
+    app/api.py
+    app/test_api/
+    */site-packages/*
+    .venv/*

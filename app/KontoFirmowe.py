@@ -1,4 +1,7 @@
 from app.Konto import Konto
+import requests
+import os
+from datetime import date
 
 
 class KontoFirmowe(Konto):
@@ -11,10 +14,23 @@ class KontoFirmowe(Konto):
         self.is_nip(NIP)
 
     def is_nip(self, NIP):
-        if (len(NIP) == 10 and NIP.isdigit()):
+        if (len(NIP) == 10 and NIP.isdigit() and self.is_nip_real(NIP)):
             self.NIP = NIP
         else:
             self.NIP = "Niepoprawny NIP!"
+
+    def is_nip_real(self, NIP):
+        today_date = date.today()
+        today = today_date.strftime("%Y-%m-%d")
+
+        response = requests.get(
+            f"${os.environ.get('BANK_APP_MF_URL')}/${NIP}?date=${today}"
+        )
+
+        if (response.status_code == 200):
+            return True
+        else:
+            return False
 
     def check_balance_to_loan(self, suma):
         if (self.saldo >= 2 * suma):
